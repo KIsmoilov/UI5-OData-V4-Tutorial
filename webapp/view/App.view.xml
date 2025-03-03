@@ -13,17 +13,30 @@
 							growing="true"
 							growingThreshold="10"
 							items="{
-								path: '/People'
+								path: '/People',
+								parameters: {
+									$count: true
+								}
 							}">
 							<headerToolbar>
 								<OverflowToolbar>
 									<content>
 										<ToolbarSpacer/>
+										<SearchField
+											id="searchField"
+											width="20%"
+											placeholder="{i18n>searchFieldPlaceholder}"
+											search=".onSearch"/>
 										<Button
 											id="refreshUsersButton"
 											icon="sap-icon://refresh"
 											tooltip="{i18n>refreshButtonText}"
 											press=".onRefresh"/>
+										<Button
+											id="sortUsersButton"
+											icon="sap-icon://sort"
+											tooltip="{i18n>sortButtonText}"
+											press="onSort"/>
 									</content>
 								</OverflowToolbar>
 							</headerToolbar>
