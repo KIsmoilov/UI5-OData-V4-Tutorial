@@ -18,7 +18,8 @@
 									$count: true,
 									$$updateGroupId : 'peopleGroup'
 								}
-							}">
+							}"
+							mode="SingleSelectLeft">
 							<headerToolbar>
 								<OverflowToolbar>
 									<content>
@@ -34,6 +35,15 @@
 											icon="sap-icon://add"
 											tooltip="{i18n>createButtonText}"
 											press=".onCreate">
+											<layoutData>
+												<OverflowToolbarLayoutData priority="NeverOverflow"/>
+											</layoutData>
+										</Button>
+										<Button
+											id="deleteUserButton"
+											icon="sap-icon://delete"
+											tooltip="{i18n>deleteButtonText}"
+											press=".onDelete">
 											<layoutData>
 												<OverflowToolbarLayoutData priority="NeverOverflow"/>
 											</layoutData>
