@@ -67,7 +67,8 @@ sap.ui.define(
 
       onDelete: function () {
         var oContext,
-          oSelected = this.byId("peopleList").getSelectedItem(),
+          oPeopleList = this.byId("peopleList"),
+          oSelected = oPeopleList.getSelectedItem(),
           sUserName;
 
         if (oSelected) {
@@ -80,6 +81,11 @@ sap.ui.define(
               );
             }.bind(this),
             function (oError) {
+              if (
+                oContext === oPeopleList.getSelectedItem().getBindingContext()
+              ) {
+                this._setDetailArea(oContext);
+              }
               this._setUIChanges();
               if (oError.canceled) {
                 MessageToast.show(
@@ -90,6 +96,7 @@ sap.ui.define(
               MessageBox.error(oError.message + ": " + sUserName);
             }.bind(this)
           );
+          this._setDetailArea();
           this._setUIChanges(true);
         }
       },
@@ -226,6 +233,12 @@ sap.ui.define(
         bMessageOpen = true;
       },
 
+      onSelectionChange: function (oEvent) {
+        this._setDetailArea(
+          oEvent.getParameter("listItem").getBindingContext()
+        );
+      },
+
       _getText: function (sTextId, aArgs) {
         return this.getOwnerComponent()
           .getModel("i18n")
@@ -247,6 +260,24 @@ sap.ui.define(
       _setBusy: function (bIsBusy) {
         var oModel = this.getView().getModel("appView");
         oModel.setProperty("/busy", bIsBusy);
+      },
+
+      /**
+       * Toggles the visibility of the detail area
+       *
+       * @param {object} [oUserContext] - the current user context
+       */
+      _setDetailArea: function (oUserContext) {
+        var oDetailArea = this.byId("detailArea"),
+          oLayout = this.byId("defaultLayout"),
+          oSearchField = this.byId("searchField");
+
+        oDetailArea.setBindingContext(oUserContext || null);
+        // resize view
+        oDetailArea.setVisible(!!oUserContext);
+        oLayout.setSize(oUserContext ? "60%" : "100%");
+        oLayout.setResizable(!!oUserContext);
+        oSearchField.setWidth(oUserContext ? "40%" : "20%");
       },
     });
   }
